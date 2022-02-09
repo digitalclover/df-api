@@ -1,0 +1,29 @@
+{
+  "bindings": [
+    {
+      "name": "myTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 0 */1 * * *"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "out",
+      "name": "outputDocument",
+      "databaseName": "df-api",
+      "collectionName": "videos",
+      "createIfNotExists": true,
+      "connectionStringSetting": "CosmosDbConnectionString"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "inputDocument",
+      "databaseName": "df-api",
+      "collectionName": "videos",
+      "connectionStringSetting": "CosmosDbConnectionString",
+      "sqlQuery": "SELECT * FROM c OFFSET 0 LIMIT 20"
+    }
+  ],
+  "scriptFile": "../dist/getLatestVideos/index.js"
+}
