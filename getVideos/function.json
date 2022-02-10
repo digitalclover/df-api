@@ -20,7 +20,8 @@
       "name": "inputDocument",
       "databaseName": "df-api",
       "collectionName": "videos",
-      "connectionStringSetting": "CosmosDbConnectionString"
+      "connectionStringSetting": "CosmosDbConnectionString",
+      "sqlQuery": "SELECT * FROM c OFFSET 0 LIMIT 20"
     }
   ],
   "scriptFile": "../dist/getVideos/index.js"
