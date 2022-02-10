@@ -1,7 +1,6 @@
 import { AzureFunction, Context } from '@azure/functions';
 import * as jsdom from 'jsdom';
 import { concatMap, from, map, tap, toArray } from 'rxjs';
-import { DFDB } from '../utility/db';
 import { getRequest } from '../utility/requests';
 
 interface VideoBasic {
@@ -24,7 +23,6 @@ export interface VideoDetails extends VideoBasic {
   }>;
 }
 
-const db = new DFDB();
 const urlPrefix = 'https://www.digitalfoundry.net/';
 const samplerTitle = 'FREE DOWNLOAD: Gran Turismo Sport HDR Sampler';
 
@@ -55,7 +53,6 @@ const timerTrigger: AzureFunction = function (context: Context, myTimer: any) {
           toArray()
         )
       ),
-      tap(data => db.set(data)),
       tap(data => {
         if (data.length) {
           context.bindings.outputDocument = JSON.stringify(data);
@@ -74,10 +71,10 @@ const defineVideoBasicInfo = (data: string): VideoBasic[] => {
   const dom = new JSDOM(data);
   const videoDOMs = dom.window.document.getElementsByClassName('video');
   return [...videoDOMs].map(videoEl => {
-    const title = videoEl.querySelector('.title').textContent;
+    const title = videoEl.querySelector('.title').textContent.trim();
     const dfLink =
       urlPrefix + videoEl.querySelector('.title a').getAttribute('href');
-    const duration = videoEl.querySelector('.duration').textContent;
+    const duration = videoEl.querySelector('.duration').textContent.trim();
     return {
       title,
       dfLink,
@@ -92,18 +89,18 @@ const mapVideoDetails = (data: string) => {
   const created = Date.now();
   const videoDetails = dom.window.document.querySelector('.video-details');
   const breadcrumbs = videoDetails.querySelectorAll('.breadcrumb a');
-  const tags = [...breadcrumbs].map(el => el.textContent);
+  const tags = [...breadcrumbs].map(el => el.textContent.trim());
   const ytLink = videoDetails
     .querySelector('iframe')
     .getAttribute('data-src')
     .replace('https://www.youtube.com/embed/', 'https://youtu.be/');
-  const description = videoDetails.querySelector('.body').textContent;
+  const description = videoDetails.querySelector('.body').textContent.trim();
   const formats = videoDetails.getElementsByClassName('download-option');
   const downloadOptions = [...formats].map(el => {
-    const format = el.querySelector('.metadata span:first-child').textContent;
-    const fileSize = el.querySelector('.size').textContent;
-    const videoEncoding = el.querySelector('.video-encoding').textContent;
-    const audioEncoding = el.querySelector('.audio-encoding').textContent;
+    const format = el.querySelector('.metadata span:first-child').textContent.trim();
+    const fileSize = el.querySelector('.size').textContent.trim();
+    const videoEncoding = el.querySelector('.video-encoding').textContent.trim();
+    const audioEncoding = el.querySelector('.audio-encoding').textContent.trim();
     return { format, fileSize, videoEncoding, audioEncoding };
   });
   return { tags, ytLink, created, description, downloadOptions };

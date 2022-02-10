@@ -1,14 +1,47 @@
-import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { AzureFunction, Context, HttpRequest } from '@azure/functions';
+import { VideoDetails } from '../scrapeForNewVideos';
 
-const httpTrigger: AzureFunction = function (context: Context, req: HttpRequest): void {
-    context.log('HTTP trigger function processed a request.');
-    const responseMessage = context.bindings.inputDocument
+interface DBVideo extends VideoDetails {
+  id: string;
+  _rid: string;
+  _self: string;
+  _etag: string;
+  _attachments: string;
+  _ts: number;
+}
 
-    context.res = {
-        body: responseMessage
-    };
-    context.done();
-
+const httpTrigger: AzureFunction = function (
+  context: Context,
+  req: HttpRequest
+): void {
+  context.log('HTTP trigger function processed a request.');
+  const dbData: DBVideo = context.bindings.inputDocument;
+  const {
+    id,
+    title,
+    duration,
+    dfLink,
+    ytLink,
+    description,
+    tags,
+    downloadOptions,
+    created,
+  } = dbData;
+  const responseMessage = {
+    id,
+    title,
+    duration,
+    dfLink,
+    ytLink,
+    description,
+    tags,
+    downloadOptions,
+    created,
+  };
+  context.res = {
+    body: responseMessage,
+  };
+  context.done();
 };
 
 export default httpTrigger;
