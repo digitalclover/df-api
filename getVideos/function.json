@@ -1,0 +1,29 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "inputDocument",
+      "databaseName": "df-api",
+      "collectionName": "videos",
+      "connectionStringSetting": "CosmosDbConnectionString",
+      "sqlQuery": "SELECT * FROM c OFFSET 0 LIMIT 20"
+    }
+  ],
+  "scriptFile": "../dist/getVideos/index.js"
+}
