@@ -6,8 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get",
-        "post"
+        "get"
       ]
     },
     {
@@ -21,8 +20,7 @@
       "name": "inputDocument",
       "databaseName": "df-api",
       "collectionName": "videos",
-      "connectionStringSetting": "CosmosDbConnectionString",
-      "sqlQuery": "SELECT * FROM c OFFSET 0 LIMIT 20"
+      "connectionStringSetting": "CosmosDbConnectionString"
     }
   ],
   "scriptFile": "../dist/getVideos/index.js"

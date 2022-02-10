@@ -1,4 +1,4 @@
-import { VideoDetails } from "../getLatestVideos";
+import { VideoDetails } from "../scrapeForNewVideos";
 
 export class DFDB {
   private state: Map<string, VideoDetails>;
