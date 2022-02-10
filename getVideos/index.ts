@@ -15,29 +15,31 @@ const httpTrigger: AzureFunction = function (
   req: HttpRequest
 ): void {
   context.log('HTTP trigger function processed a request.');
-  const dbData: DBVideo = context.bindings.inputDocument;
-  const {
-    id,
-    title,
-    duration,
-    dfLink,
-    ytLink,
-    description,
-    tags,
-    downloadOptions,
-    created,
-  } = dbData;
-  const responseMessage = {
-    id,
-    title,
-    duration,
-    dfLink,
-    ytLink,
-    description,
-    tags,
-    downloadOptions,
-    created,
-  };
+  const dbData: DBVideo[] = context.bindings.inputDocument;
+  const responseMessage = dbData.map(video => {
+    const {
+      id,
+      title,
+      duration,
+      dfLink,
+      ytLink,
+      description,
+      tags,
+      downloadOptions,
+      created,
+    } = video;
+    return {
+      id,
+      title,
+      duration,
+      dfLink,
+      ytLink,
+      description,
+      tags,
+      downloadOptions,
+      created,
+    };
+  });
   context.res = {
     body: responseMessage,
   };

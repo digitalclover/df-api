@@ -19,16 +19,15 @@ export interface VideoDetails extends VideoBasic {
     videoEncoding: string;
     audioEncoding: string;
     fileSize: string;
-    url?: string;
+    videoId: string;
   }>;
 }
 
-const urlPrefix = 'https://www.digitalfoundry.net/';
 const samplerTitle = 'FREE DOWNLOAD: Gran Turismo Sport HDR Sampler';
 
 const timerTrigger: AzureFunction = function (context: Context, myTimer: any) {
   context.log('Triggering Request');
-  const basicList$ = from(getRequest<string>(`${urlPrefix}`));
+  const basicList$ = from(getRequest<string>());
   basicList$
     .pipe(
       map(dom => defineVideoBasicInfo(dom)),
@@ -44,7 +43,7 @@ const timerTrigger: AzureFunction = function (context: Context, myTimer: any) {
       concatMap(videos =>
         from(videos).pipe(
           concatMap(video =>
-            from(getRequest<string>(`${video.dfLink}`)).pipe(
+            from(getRequest<string>(video.dfLink)).pipe(
               map(dom => mapVideoDetails(dom)),
               map(details => ({ ...video, ...details } as VideoDetails)),
               tap(video => context.log(`Found details for ${video.title}`))
@@ -73,7 +72,7 @@ const defineVideoBasicInfo = (data: string): VideoBasic[] => {
   return [...videoDOMs].map(videoEl => {
     const title = videoEl.querySelector('.title').textContent.trim();
     const dfLink =
-      urlPrefix + videoEl.querySelector('.title a').getAttribute('href');
+      videoEl.querySelector('.title a').getAttribute('href');
     const duration = videoEl.querySelector('.duration').textContent.trim();
     return {
       title,
@@ -101,7 +100,8 @@ const mapVideoDetails = (data: string) => {
     const fileSize = el.querySelector('.size').textContent.trim();
     const videoEncoding = el.querySelector('.video-encoding').textContent.trim();
     const audioEncoding = el.querySelector('.audio-encoding').textContent.trim();
-    return { format, fileSize, videoEncoding, audioEncoding };
+    const videoId = el.querySelector('.download').getAttribute('href').split('/auth/download/')[1];
+    return { format, fileSize, videoEncoding, audioEncoding, videoId };
   });
   return { tags, ytLink, created, description, downloadOptions };
 };
