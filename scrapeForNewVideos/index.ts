@@ -10,6 +10,7 @@ interface VideoBasic {
 }
 
 export interface VideoDetails extends VideoBasic {
+  thumbnail: string;
   tags: Array<string>;
   ytLink: string;
   description: string;
@@ -89,6 +90,7 @@ const mapVideoDetails = (data: string) => {
   const videoDetails = dom.window.document.querySelector('.video-details');
   const breadcrumbs = videoDetails.querySelectorAll('.breadcrumb a');
   const tags = [...breadcrumbs].map(el => el.textContent.trim());
+  const thumbnail = videoDetails.querySelector('.thumbnails a').getAttribute('href');
   const ytLink = videoDetails
     .querySelector('iframe')
     .getAttribute('data-src')
@@ -103,5 +105,5 @@ const mapVideoDetails = (data: string) => {
     const videoId = el.querySelector('.download').getAttribute('href').split('/auth/download/')[1];
     return { format, fileSize, videoEncoding, audioEncoding, videoId };
   });
-  return { tags, ytLink, created, description, downloadOptions };
+  return { thumbnail, tags, ytLink, created, description, downloadOptions };
 };
