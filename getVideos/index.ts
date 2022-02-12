@@ -1,14 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
-import { VideoDetails } from '../scrapeForNewVideos';
-
-interface DBVideo extends VideoDetails {
-  id: string;
-  _rid: string;
-  _self: string;
-  _etag: string;
-  _attachments: string;
-  _ts: number;
-}
+import { DBVideo } from '../utility/interface';
 
 const httpTrigger: AzureFunction = function (
   context: Context,
