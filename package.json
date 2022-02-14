@@ -1,7 +1,8 @@
 {
   "name": "df-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "A REST API for Digital Foundry videos. Data is supplied by a web scraper that gathers content from digitalfoundry.net",
+  "author": "Joshua McCarthy",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
