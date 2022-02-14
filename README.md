@@ -46,6 +46,35 @@ The following filter criteria will return all videos that have:
 - Contains the tag "shenmue"
 - Pubslihed until January 1, 2018
 
+## Response Interface
+
+Both endpoints will return an array of JSON objects that contain information for each video.
+
+**Example Response**
+
+    [{
+        "id": "2984fda1-7558-4812-b761-d356d338e6e5",
+        "title": "DF Retro: Quake on Sega Saturn",
+        "duration": "5:18",
+        "dfLink": "/2016-11-01-df-retro-quake-on-sega-saturn",
+        "ytLink": "https://youtu.be/LUZ436FXB4U?rel=0&showinfo=0",
+        "description": "John analyses Lobotomy Software's port of Quake. It shouldn't run on Sega Saturn, but somehow... it does.",
+        "tags": [
+          "1080p",
+          "df retro"
+        ],
+        "downloadOptions": [
+          {
+            "format": "h.264",
+            "fileSize": "257MB",
+            "videoEncoding": "1920x1080, 60.00fps, 6.7mbps",
+            "audioEncoding": "AAC 2.0, 192kbps, 48000Hz",
+            "videoId": "31"
+          }
+        ],
+        "created": 1477958400000
+      }]
+
 ## Azure Functions
 
 This application is hosted in Microsoft Azure using their serverless environment Azure Functions. There are currently three main functions.
