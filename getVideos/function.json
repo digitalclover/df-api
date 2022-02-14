@@ -21,7 +21,7 @@
       "databaseName": "df-api",
       "collectionName": "videos",
       "connectionStringSetting": "CosmosDbConnectionString",
-      "sqlQuery": "SELECT * FROM c ORDER BY c.created DESC"
+      "sqlQuery": "SELECT * FROM c ORDER BY c.created DESC OFFSET 0 LIMIT 20"
     }
   ],
   "scriptFile": "../dist/getVideos/index.js"
