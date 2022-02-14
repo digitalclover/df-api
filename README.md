@@ -58,7 +58,7 @@ This application is hosted in Microsoft Azure using their serverless environment
 
 ## Performance & Caching
 
-As this is a new project, hosting performance has been limited. App instance is located in Japan which may result in higher ping in the eastern hemisphere. Additionally, the app instance will go to sleep after 5 minutes of inactivity. Requesting an endpoint in this state will add seconds to the response time. Subsequent requests within 5 minutes will be substantially faster. 
+As this is a new project, hosting performance has been limited. App instance is located in Japan which may result in higher ping in the western hemisphere. Additionally, the app instance will go to sleep after 5 minutes of inactivity. Requesting an endpoint in this state will add seconds to the response time. Subsequent requests within 5 minutes will be substantially faster. 
 
 Additionally, there is a caching mechanism for database queries. After the first request from an endpoint is complete, the database query will be cached for one hour. If the app instance goes back to sleep before the cache refresh, it will query the database on the next request. This is to optimize moments where an endpoint may receive a burst of requests.
 
