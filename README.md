@@ -95,10 +95,10 @@ Lastly, the app instance **does not autoscale**. If too many requests are receiv
 
 ## Content Privacy
 
-As Digital Foundry produces content for both public users and private patrons, this API is intended for public use only. Patreon exclusive videos, and early access videos will not appear in this API untiil it is posted as public content on digitalfoundry.net.
+As Digital Foundry produces content for both public users and private patrons, this API is intended for public use only. Patreon exclusive videos, and early access videos will not appear in this API unless it is posted as public content on digitalfoundry.net.
 
 Each object in the `downloadOptions` array contains the property `videoId`. This ID can be used to access the following pages.
  - `https://www.digitalfoundry.net/auth/download/{videoId}` Page that contains download link.
  - `https://www.digitalfoundry.net/cdn/get_video/{videoId}` URL that resovles to downloading video file.
 
-Note that both of these links will not allow access unless you have a valid Patreon cookie. As of today, there is no intention of enabling content access to Patreon users via cookies or other authentication methods. 
+Note that both of these links will not allow access unless you are authorized through Patreon. As of today, there is no intention of enabling Patreon exclusive content to users via cookies or other authentication methods. 
