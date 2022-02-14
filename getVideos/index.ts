@@ -1,40 +1,26 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
+import { getVideoValues } from '../utility/getVideoResponse';
 import { DBVideo } from '../utility/interface';
 
-const httpTrigger: AzureFunction = function (
+let videos: DBVideo[] = [];
+let cacheReset: NodeJS.Timer;
+
+const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
-): void {
-  context.log('HTTP trigger function processed a request.');
-  const dbData: DBVideo[] = context.bindings.inputDocument;
-  const responseMessage = dbData.map(video => {
-    const {
-      id,
-      title,
-      duration,
-      dfLink,
-      ytLink,
-      description,
-      tags,
-      downloadOptions,
-      created,
-    } = video;
-    return {
-      id,
-      title,
-      duration,
-      dfLink,
-      ytLink,
-      description,
-      tags,
-      downloadOptions,
-      created,
-    };
-  });
+) {
+  if(!videos.length){
+    videos = context.bindings.inputDocument as DBVideo[];
+    refreshCache();
+  }
   context.res = {
-    body: responseMessage,
+    body: videos.map(getVideoValues()),
   };
-  context.done();
 };
 
 export default httpTrigger;
+
+const refreshCache = () => {
+  !!cacheReset && clearInterval(cacheReset);
+  cacheReset = setInterval(() => videos = [], 3600000);
+}

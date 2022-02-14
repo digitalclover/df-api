@@ -27,3 +27,12 @@ export interface DBVideo extends VideoDetails {
   _attachments: string;
   _ts: number;
 }
+
+export interface SearchParams {
+  title?: string;
+  tags?: string[];
+  date?: {
+    from?: string;
+    to?: string;
+  }
+}

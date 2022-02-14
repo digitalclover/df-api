@@ -1,9 +1,9 @@
 import * as https from 'https';
 
-export const getRequest = <T>(path = '', authCookie?: string): Promise<T> =>
+export const getRequest = (path = '', authCookie?: string): Promise<string> =>
   new Promise((res, rej) => {
     const cookie = authCookie ? authCookie : process.env.AuthCookie;
-    const hasSlash = path.substring(0,1) === '/'
+    const hasSlash = path.substring(0, 1) === '/'
     const options = {
       hostname: 'www.digitalfoundry.net',
       port: 443,
@@ -19,13 +19,13 @@ export const getRequest = <T>(path = '', authCookie?: string): Promise<T> =>
     };
 
     const req = https.request(options, response => {
-      let data;
+      let data: string;
       response.on('data', d => {
         data += d.toString('utf-8');
       });
 
       response.on('end', () => {
-        res(data as T);
+        res(data);
       });
     });
 

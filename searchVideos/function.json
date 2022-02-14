@@ -1,0 +1,28 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "in",
+      "name": "inputDocument",
+      "databaseName": "df-api",
+      "collectionName": "videos",
+      "connectionStringSetting": "CosmosDbConnectionString",
+      "sqlQuery": "SELECT * FROM c ORDER BY c.created"
+    }
+  ],
+  "scriptFile": "../dist/searchVideos/index.js"
+}
