@@ -92,3 +92,13 @@ As this is a new project, hosting performance has been limited. App instance is 
 Additionally, there is a caching mechanism for database queries. After the first request from an endpoint is complete, the database query will be cached for one hour. If the app instance goes back to sleep before the cache refresh, it will query the database on the next request. This is to optimize moments where an endpoint may receive a burst of requests.
 
 Lastly, the app instance **does not autoscale**. If too many requests are received, the app may encounter issues as it reaches capacity.
+
+## Content Privacy
+
+As Digital Foundry produces content for both public users and private patrons, this API is intended for public use only. Patreon exclusive videos, and early access videos will not appear in this API untiil it is posted as public content on digitalfoundry.net.
+
+Each object in the `downloadOptions` array contains the property `videoId`. This ID can be used to access the following pages.
+ - `https://www.digitalfoundry.net/auth/download/{videoId}` Page that contains download link.
+ - `https://www.digitalfoundry.net/cdn/get_video/{videoId}` URL that resovles to downloading video file.
+
+Note that both of these links will not allow access unless you have a valid Patreon cookie. As of today, there is no intention of enabling content access to Patreon users via cookies or other authentication methods. 
