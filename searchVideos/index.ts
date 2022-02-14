@@ -10,7 +10,7 @@ const httpTrigger: AzureFunction = function (context: Context, req: HttpRequest)
     videos = context.bindings.inputDocument as DBVideo[];
     refreshCache();
   }
-  const { title, tags, date } = req.body as SearchParams;
+  const { title, tags, date } = req?.body as SearchParams || {};
   const response = videos.filter(video => {
     const titleMatch = !!title ? video.title.toLocaleLowerCase().includes(title.toLocaleLowerCase()) || false : true;
     const tagsMatch = !!(tags && tags.length) ? tags.every(tag => video.tags.includes(tag.toLocaleLowerCase())) || false : true;
